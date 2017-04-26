@@ -26,12 +26,15 @@ Net HTTP example:
 require "net/http"
 require "json"
 
-Roh.new do
+roh = Roh.new do
   request = Net::HTTP::Get.new("/")
   http = Net::HTTP.new("localhost", 9999)
   response = http.request(request)
   JSON.parse(response.body)
 end
+
+roh = roh.ok? # is the response real ? or is it fake data returned on error ?
+roh.result  # => { ... } 
 ```
 
 HTTParty exapmle:
@@ -48,10 +51,18 @@ gem 'roh'
 require "httparty"  # you need to install gem httparty
 require "json"
 
-Roh.new do
-  JSON.parse(HTTParty.new('https://my.website.com/api/users.json').body)
+roh = Roh.new do
+  JSON.parse(HTTParty.get('https://my.website.com/api/users.json').body)
 end
+roh = roh.ok? # is the response real ? or is it fake data returned on error ?
+roh.result
 ```
+
+## Common issues
+
+* use `do .. end` not ` { } ` (braces) syntax of Ruby block as `{}` has
+different presedence http://stackoverflow.com/a/5587403/473040
+* block needs to be result you 
 
 ## Contributing
 
