@@ -1,8 +1,6 @@
-# Roh
+# Roh - Response Object HTTP for Ruby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/roh`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Response Object for your HTTP calls returning sensible default in case of errors based on John Nunemaker article https://johnnunemaker.com/resilience-in-ruby/
 
 ## Installation
 
@@ -22,15 +20,39 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Net HTTP example:
 
-## Development
+```ruby
+require "net/http"
+require "json"
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Roh.new do
+  request = Net::HTTP::Get.new("/")
+  http = Net::HTTP.new("localhost", 9999)
+  response = http.request(request)
+  JSON.parse(response.body)
+end
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+HTTParty exapmle:
+
+```ruby
+#Gemfile
+# ...
+gem 'httparty'
+gem 'roh'
+# ...
+```
+
+```ruby
+require "httparty"  # you need to install gem httparty
+require "json"
+
+Roh.new do
+  JSON.parse(HTTParty.new('https://my.website.com/api/users.json').body)
+end
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/roh.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/equivalent/roh
