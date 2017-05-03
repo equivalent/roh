@@ -7,7 +7,7 @@ Response Object for your HTTP calls returning sensible default in case of errors
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'roh'
+gem 'roh', github: 'equivalent/roh'
 ```
 
 And then execute:
